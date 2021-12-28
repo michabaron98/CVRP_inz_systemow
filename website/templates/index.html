@@ -18,13 +18,13 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link active" href="./index.html">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Display</a>
+          <a class="nav-link" href="./display.html">Display</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Bibliography</a>
+          <a class="nav-link" href="./bibliography.html">Bibliography</a>
         </li>
       </div>
     </div>
@@ -77,71 +77,92 @@
             
             <ul class="list-group list-group-horizontal">
               <li class="list-group-item">
-                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Number of vehicles">
+                <input type="number" class="form-control" id="numberOfVehicles" placeholder="X">
               </li>
               <li class="list-group-item">
-                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Number of vehicles">
+                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Y">
               </li>
               <li class="list-group-item">
-                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Number of vehicles">
+                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Q">
               </li>
             </ul>
+
             <ul class="list-group list-group-horizontal">
               <li class="list-group-item">
-                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Number of vehicles">
+                <input type="number" class="form-control" id="numberOfVehicles" placeholder="X">
               </li>
               <li class="list-group-item">
-                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Number of vehicles">
+                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Y">
               </li>
               <li class="list-group-item">
-                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Number of vehicles">
+                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Q">
               </li>
             </ul>
-            <ul class="list-group list-group-horizontal">
+
+            <!-- <ul class="list-group list-group-horizontal">
               <li class="list-group-item">
-                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Number of vehicles">
+                <input type="number" class="form-control" id="numberOfVehicles" placeholder="X">
               </li>
               <li class="list-group-item">
-                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Number of vehicles">
+                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Y">
               </li>
               <li class="list-group-item">
-                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Number of vehicles">
-              </li>
-            </ul>
-            <ul class="list-group list-group-horizontal">
-              <li class="list-group-item">
-                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Number of vehicles">
-              </li>
-              <li class="list-group-item">
-                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Number of vehicles">
-              </li>
-              <li class="list-group-item">
-                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Number of vehicles">
+                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Q">
               </li>
             </ul>
+
             <ul class="list-group list-group-horizontal">
               <li class="list-group-item">
-                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Number of vehicles">
+                <input type="number" class="form-control" id="numberOfVehicles" placeholder="X">
               </li>
               <li class="list-group-item">
-                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Number of vehicles">
+                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Y">
               </li>
               <li class="list-group-item">
-                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Number of vehicles">
+                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Q">
               </li>
             </ul>
+
             <ul class="list-group list-group-horizontal">
               <li class="list-group-item">
-                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Number of vehicles">
+                <input type="number" class="form-control" id="numberOfVehicles" placeholder="X">
               </li>
               <li class="list-group-item">
-                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Number of vehicles">
+                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Y">
               </li>
               <li class="list-group-item">
-                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Number of vehicles">
+                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Q">
               </li>
-          </ul>
+            </ul>
+
+            <ul class="list-group list-group-horizontal">
+              <li class="list-group-item">
+                <input type="number" class="form-control" id="numberOfVehicles" placeholder="X">
+              </li>
+              <li class="list-group-item">
+                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Y">
+              </li>
+              <li class="list-group-item">
+                <input type="number" class="form-control" id="numberOfVehicles" placeholder="Q">
+              </li>
+            </ul> -->
+
+            <div class="pt-1 d-grid gap-2 col-4 mx-auto">
+            <button type="button" class="btn btn-secondary ml-8 mr-8 mt-1" id="addPointButton">
+              Add Point
+            </button>
+          </div>
+
         </div>
+        <hr>
+        <div class="d-grid gap-2 col-4 mx-auto">
+          <div class="form-check form-switch">
+            <input class="form-check-input btn-dark" type="checkbox" id="useCSVSwitch" checked>
+            <label class="form-check-label" for="useCSVSwitch">Use CSV (turn off to use points added manualy)</label>
+          </div>
+          <button type="button" class="btn-lg btn-dark" id="solveButton">
+            Calculate
+          </button>
       </div>
     </div>
   </div>
