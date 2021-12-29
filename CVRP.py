@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 class Cvrp():
     
-    def ploting_points(loc_x = [0], loc_y = [0], demand = [10], vehicle_capacity = 20):
+    def plotting_points(loc_x = [0], loc_y = [0], demand = [10], vehicle_capacity = 20):
         """
         Method returns graph of points in a coordinate network and save it as png file
         ---------
@@ -52,9 +52,9 @@ class Cvrp():
             vehicle_capacity = max(demand)
         _num_vehicle = 1
         _total_demand = 0
-        for i, val in demand:
+        for i, val in ennumerate(demand):
             _total_demand = val + _total_demand
-            if i == len(demand):
+            if i + 1 == len(demand):
                 return _num_vehicle
             if _total_demand + demand[i + 1] >= vehicle_capacity:
                 _num_vehicle += 1
