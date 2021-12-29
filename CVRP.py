@@ -5,7 +5,7 @@ class Cvrp():
     
     def ploting_points(loc_x = [0], loc_y = [0], demand = [10], vehicle_capacity = 20):
         """
-        Method returns graph of points in a coordinate network and save it into png file
+        Method returns graph of points in a coordinate network and save it as png file
         ---------
         Parameters:
         loc_x - list - List of x coordinates of points
