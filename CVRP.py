@@ -41,6 +41,14 @@ class Cvrp():
         return _arcs, _costs
 
     def generate_saving_matrix(arcs, costs):
+        """
+        Function returns sorted matrix of savings - dict
+        ---------
+        Parameters:
+        arcs - list - All arcs in graph. Example: [(0,1), (1,0)]
+        costs - dict - Key - arc, Value - cost of trip. Example {(0,1): 123, (1,0):123}
+
+        """
         _saving = {}
         for i, j in arcs:
             _c_1_i = costs.get((0, i))
