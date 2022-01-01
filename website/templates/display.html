@@ -19,13 +19,13 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link " href="./index.html">Home</a>
+          <a class="nav-link " href="/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="/display">Display <span class="sr-only">(current)</span></a>
+          <a class="nav-link active" href="/display/">Display <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./bibliography.html">Bibliography</a>
+          <a class="nav-link" href="/bibliography/">Bibliography</a>
         </li>
       </div>
     </div>
@@ -52,27 +52,16 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1M123QST</th>
-                <td>12/12/2021</td>
-                <td>25</td>
-                <td>Manual</td>
-              </tr>
-              <tr>
-                <td>1M124QST</th>
-                <td>12/12/2021</td>
-                <td>25</td>
-                <td>CSV</td>
-              </tr>
-              <tr>
-                <td>1M923QST</th>
-                <td>12/12/2021</td>
-                <td>25</td>
-                <td>Manual</td>
-              </tr>
+              {% for key, value in content.results.items() %}
+                  <tr>
+                      <td>{{ value.name }}</th>
+                      <td>{{ value.date }}</td>
+                      <td>{{ value.number_of_points }}</td>
+                      <td>{{ value.input_type }}</td>
+                  </tr>
+              {% endfor %}
             </tbody>
           </table>
-
         </div>
   </div>
   

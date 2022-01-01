@@ -1,0 +1,28 @@
+{
+    "results": {
+        "MOS12KT": {
+            "name": "MOS12KT",
+            "date": "2017-01-01",
+            "number_of_points": "12",
+            "input_type": "Manual",
+            "image_url": "https://s3.amazonaws.com/mosaic-images/MOS12KT.png",
+            "csv_url:": "https://s3.amazonaws.com/mosaic-images/MOS12KT.csv"
+        },
+        "MOS58KT": {
+            "name": "MOS58KT",
+            "date": "2017-01-01",
+            "number_of_points": "12",
+            "input_type": "Manual",
+            "image_url": "https://s3.amazonaws.com/mosaic-images/MOS12KT.png",
+            "csv_url:": "https://s3.amazonaws.com/mosaic-images/MOS12KT.csv"
+        },
+        "MOS69KT": {
+            "name": "MOS69KT",
+            "date": "2017-01-01",
+            "number_of_points": "12",
+            "input_type": "Manual",
+            "image_url": "https://s3.amazonaws.com/mosaic-images/MOS12KT.png",
+            "csv_url:": "https://s3.amazonaws.com/mosaic-images/MOS12KT.csv"
+        }
+    }
+}
