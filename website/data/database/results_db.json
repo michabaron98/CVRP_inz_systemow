@@ -1,1 +1,13 @@
-{"results": {"OZCLJOI": {"name": "OZCLJOI", "date": "2022-01-02", "num_of_points": 5, "input_type": "CSV", "full_cost": 80.89392889788081, "image_url": "../data/images/placeholder.png", "csv_url:": ""}}}
+{
+  "results": {
+    "OZCLJOI": {
+      "name": "OZCLJOI",
+      "date": "2022-01-02",
+      "num_of_points": 5,
+      "input_type": "CSV",
+      "full_cost": 80.89392889788081,
+      "image_url": "../data/images/placeholder.png",
+      "csv_url:": ""
+    }
+  }
+}
