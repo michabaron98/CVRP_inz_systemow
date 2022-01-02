@@ -39,7 +39,7 @@ def bibliography():
 def display():
     return render_template('display.html', content=get_database())
 
-@app.route('/result/<str:id>')
+@app.route('/result/<id>')
 def result(id):
     return render_template('result.html', content=get_database()['results'][id])
 
@@ -61,6 +61,6 @@ def generate_random_string():
     import string
     return ''.join(random.choice(string.ascii_uppercase) for i in range(7))
     
-def calculate_scvrp():
+def calculate_scvrp(data):
     # TO DO!!!
     pass
