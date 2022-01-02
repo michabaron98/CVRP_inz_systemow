@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCVRP</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">    
+   
+  </head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">SCVRP</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/display/">Display</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/bibliography/">Bibliography</a>
+        </li>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container p-5">
+    <div class="row ">
+      </div> 
+    <div class="row align-items-start ">
+      <div class="col">
+        <h1 class="text-center">Symetric capacitated vehicle routing problem solver</h1>
+        <p class="text-break pt-5 fs-4">
+          Capacitated vehicle routing problem (CVRP) is variation of VRP with additional limitation based on delivery car capacity. Symetric capacitated vehicle routing problem (SCVRP) adds the assumption that the cost of travel by road from A to B is the same as from B to A. This website alows you to upload your SCVRP problem and solves it using saving based heuristics. You can add point manualy or upload them in CSV* file. 
+
+          Please note that adding problem with many point may take long time to solve.
+        </p>
+
+        <p class="text-break p-1 fs-5">
+          *CSV file must be filled in the same format as template
+        </p>
+        <div class="d-grid gap-2 col-4 mx-auto">
+          <button type="button" class="btn btn-secondary" id="getCSVButton">
+            Get CSV template
+          </button>
+        </div>
+      </div>
+      <div class="col">
+        <h1 class="text-center">To calculate SCVRP</h1>
+        <div class="pt-5 d-grid gap-2 col-4 mx-auto">
+          <p class="text-center pt-3 fs-4">Upload CSV</p>
+          <input type="file" class="form-control-file" id="csvFileInput" accept=".csv">
+          <!-- <button type="button" class="btn btn-secondary" id="uploadCSVButton">
+            Upload CSV
+          </button> -->
+        </div>
+          <p class="text-center pt-3 fs-4">or</p>
+          <p class="text-center fs-4">
+            Input data manualy            
+          </p>
+          <div class="d-grid gap-2 col-4 mx-auto">
+            <p class="text-center pt-3 fs-4">Car information</p>
+            <ul class="list-group list-group-horizontal pb-3">
+              <li class="list-group-item">
+                Car capacity
+              </li>
+              <li class="list-group-item">
+                <input type="number" class="form-control" id="capacityOfVehicles" placeholder="Number of vehicles">
+              </li>
+            </ul>
+            </div>
+          <div class="d-grid gap-2 col-10 mx-auto">
+            <div id="listDiv">
+            </div>
+            <div class="pt-1 d-grid gap-2 col-4 mx-auto">
+            <button type="button" class="btn btn-secondary ml-8 mr-8 mt-1" id="addPointButton" onclick="addPointAdded()">
+              Add Point
+            </button>
+          </div>
+
+        </div>
+        <hr>
+        <div class="d-grid gap-2 col-4 mx-auto">
+          <div class="form-check form-switch">
+            <input class="form-check-input btn-dark" type="checkbox" id="useCSVSwitch" checked>
+            <label class="form-check-label" for="useCSVSwitch">Use CSV (turn off to use points added manualy)</label>
+          </div>
+          <button type="button" class="btn-lg btn-dark" id="solveButton">
+            Calculate
+          </button>
+      </div>
+    </div>
+  </div>
+  <script>
+
+    var isCSVUploaded = false;
+    var manualPointsNum = 0;
+    var useCSV = true;
+
+    var csvObject = Object();
+    var manualPointsObject = Object();
+
+    function addPointAdded() {
+      console.log("addPoint clicked");
+      
+      document.getElementById("listDiv").innerHTML += 
+            '<ul class="list-group list-group-horizontal"><li class="list-group-item" tag="input"><input type="number" class="form-control" id="X'  + String(manualPointsNum) + '"placeholder="X"></li><li class="list-group-item"><input type="number" class="form-control" id="Y'  + String(manualPointsNum) + '" placeholder="Y"></li><li class="list-group-item"><input type="number" class="form-control" id="Q'  + String(manualPointsNum) + '" placeholder="Q"></li></ul>';
+    
+            manualPointsNum++;
+          }
+
+    const csvFileSelector = document.getElementById('csvFileInput');
+    const useCSVtoggle = document.getElementById('useCSVSwitch');
+    const calcButton = document.getElementById('solveButton');
+    const getCSVTempalte = document.getElementById('getCSVButton');
+    // console.log(csvFileSelector);
+
+    getCSVTempalte.addEventListener('click', function() {
+      console.log("getCSV clicked");
+      window.location.href = "/data/csv_files/template.csv";
+    });
+
+    csvFileSelector.addEventListener('change', (event) => {
+      readImage(event.target);
+      const file = event.target.files[0];
+    });
+
+    useCSVtoggle.addEventListener('change', (event) => {
+      useCSV = event.target.checked;
+      console.log(useCSV);
+    });
+
+    calcButton.addEventListener('click', (event) => {
+      console.log("calcButton clicked");
+      if (useCSV) {
+        console.log("useCSV");
+        if (isCSVUploaded) {
+          console.log("isCSVUploaded");
+          fetch('/index', {
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            method: 'POST',
+            body: JSON.stringify({
+              'requestType': 'sendPoints',
+              'type': 'CSV',
+              'pointsLen': csvObject.pointsLen,
+              'returnObject': csvObject,
+            })})
+            .then(function(response) {
+              response.json().then(function(response) {
+                    alert("Solution calculated. Code to get results in Dispaly is: " + response.code);
+                    console.log(response);
+                    window.location.href = '/result/' + response.code;
+                    fetch('/index', {
+                      headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                      },
+                      method: 'POST',
+                      body: JSON.stringify({
+                        'requestType': 'goToSolution',
+                        'code': response.code,
+                      })
+                    })
+                })
+              })
+        } else {
+          alert("CSV file is not uploaded");
+        }
+      } 
+      else {
+        if(checkPoints()) {
+          pointsToObject();
+          fetch('/index', {
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            method: 'POST',
+            body: JSON.stringify({
+              'requestType': 'sendPoints',
+              'type': 'manual',
+              'pointsLen': manualPointsNum,
+              'returnObject': manualPointsObject,
+            })
+          }).then(function (response){
+            if(response.ok) {
+                response.json()
+                .then(function(response) {
+                    alert("Solution calculated. Code to get results in Dispaly is: " + response.code);
+                    console.log(response);
+                    window.location.href = '/result/' + response.code;
+                    fetch('/index', {
+                      headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                      },
+                      method: 'POST',
+                      body: JSON.stringify({
+                        'type': 'goToSolution',
+                        'code': response.code,
+                      })
+                    })
+                });
+            }
+          }
+          );
+         
+        }
+      }
+    });
+
+            
+   
+
+    var obj_csv = {
+      size:0,
+      dataFile:[]
+    };
+
+    function readImage(input) {
+      console.log(input)
+
+      let reader = new FileReader();
+      reader.readAsBinaryString(input.files[0]);
+      reader.onload = function (e) {
+        console.log(e);
+        obj_csv.size = e.total;
+        obj_csv.dataFile = e.target.result
+        console.log(obj_csv.dataFile)
+        parseData(obj_csv.dataFile)  
+        }
+    }
+    
+    function parseData(data){
+        let csvData = [];
+        if (checkCSVFile(data)) {
+          console.log("Correct CSV file");
+          csvToObject(data);
+        }
+    }
+
+    function checkCSVFile(data) {
+      data = data.split("\n");
+      // data = data.split(";");
+      console.log(data);
+      let firstRow = data[0].split(";");
+      if (firstRow[0] != "CarCap") {
+        alert("Wrong CSV file format. Check CarCap");
+        return false;
+      }
+      if (Number(firstRow[1]) < 1) {
+        alert("Wrong CSV file format. Check capacity of vehicles");
+        return false;
+      }
+      for(let i = 1; i < data.length; i++) {
+        let row = data[i].split(";");
+        console.log(row);
+        if (row.length != 6) {
+          alert("Wrong CSV file format. Check number of columns");
+          return false;
+        }
+        // row[6] =row[6].replace('\r','');
+        // console.log(row[5]);
+        if (Number(row[5])<1 || Number(row[5])>Number(firstRow[1])) {
+          alert("Wrong CSV file format. Check vehicle capacity");
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function csvToObject(data) {
+      points_arr =[]
+      data = data.split("\n");
+      let firstRow = data[0].split(";");
+      let capacity = Number(firstRow[1]);
+      for(let i = 1; i < data.length; i++) {
+        let row = data[i].split(";");
+        var point = Object();
+        point.x = Number(row[1]);
+        point.y = Number(row[3]);
+        point.q = Number(row[5]);
+        points_arr.push(point);
+      }
+      csvObject.cap = capacity;
+      csvObject.points = points_arr;
+      csvObject.pointsLen = data.length-2;
+      isCSVUploaded = true;
+      console.log("csvObject", csvObject);
+    }
+
+    function checkPoints() {
+      if (manualPointsNum<1) {
+        alert("No points added");
+        return false;
+      }
+      let carCap = document.getElementById("capacityOfVehicles").value;
+      if (carCap<1) {
+        alert("Wrong capacity of vehicles");
+        return false;
+      }
+      for(let i = 0; i < manualPointsNum; i++) {
+        let x = document.getElementById("X" + String(i)).value;
+        let y = document.getElementById("Y" + String(i)).value;
+        let q = document.getElementById("Q" + String(i)).value;
+        if (Number(q)<1 || Number(q)>Number(carCap)) {
+          alert('Wrong point with index: '+ String(i) + ' capacity');
+          return false;
+        }
+      }
+      return true;
+    }
+    
+    function pointsToObject() {
+      let carCap = document.getElementById("capacityOfVehicles").value;
+      let points_arr = [];
+      for(let i = 0; i < manualPointsNum; i++) {
+        let point = Object();
+        point.x = document.getElementById("X" + String(i)).value;
+        point.y = document.getElementById("Y" + String(i)).value;
+        point.q = document.getElementById("Q" + String(i)).value;
+        points_arr.push(point);
+      }
+      manualPointsObject.cap = carCap;
+      manualPointsObject.points = points_arr;
+      manualPointsObject.pointsLen = manualPointsNum;
+      console.log("manualPointsObject", manualPointsObject);
+    }
+    
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVRP</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">    
+
+</head>
+<body>
+      <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">SCVRP</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link " href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/display/">Display <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/bibliography/">Bibliography</a>
+        </li>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container p-5">
+    <h2 class="text-center">
+        Enter your calculation index
+    </h2>
+    <div class="d-grid gap-2 col-4 mx-auto">
+    <input type="text" id="calc_id" class="form-control" placeholder="Calculation ID">
+    <button class="btn btn-dark" id="goToRes">Get results</button>
+    </div>
+
+    <div class="d-grid gap-2 mt-3 col-10 mx-auto">
+        <!-- TO ADD LINKS TO results CHECK: https://www.geeksforgeeks.org/how-to-make-whole-row-in-a-table-clickable-as-link-in-bootstrap/ -->
+        <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Calculation ID</th>
+                <th scope="col">Date</th>
+                <th scope="col">Numer of points</th>
+                <th scope="col">Input type</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for key, value in content.results.items() %}
+                  <tr>
+                      <td>{{ value.name }}</th>
+                      <td>{{ value.date }}</td>
+                      <td>{{ value.number_of_points }}</td>
+                      <td>{{ value.input_type }}</td>
+                  </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+  </div>
+  <script>
+    const goToRes = document.getElementById('goToRes');
+    const calc_id = document.getElementById('calc_id');
+    goToRes.addEventListener('click', function(){
+        if (calc_id.value ){
+            window.location.href = '/result/' + calc_id.value;
+        }
+        
+    });
+  </script>
+</body>
+</html>
