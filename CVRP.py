@@ -71,7 +71,7 @@ class Cvrp():
 
     def generate_routes(savings, q, Q):
         """
-        Function returns dictionaries of routes and their demands
+        Method returns dictionaries of routes and their demands
         ---------
         Parameters:
         savings - dict - Key - depots (i, j), Value - savings.
@@ -83,15 +83,8 @@ class Cvrp():
         _routes = defaultdict(list)
         _demands = dict()
 
-        print(f"q {q}")
-
-        for i, j in savings:
-                print(i,j, "->", savings[i,j])
-
         for i, j in savings:
             if bool(q):
-                print(_routes)
-                print(i,j, "->", savings[i,j])
                 if i in q or j in q:
                     _values = _routes[_count]
                     _demand = 0
@@ -147,12 +140,28 @@ class Cvrp():
                         q.pop(i, None)
      
         _routes[_count].append(0)
-        print(_routes)
-        print(_demands)
 
         return _routes, _demands
 
-    def plotting_solution(loc_x=[0], loc_y=[0], demand=[10], vehicle_capacity=20, active_arcs = {0:0}, index = "deafulf_index"):
+    def routes_full_cost(routes, costs):
+        """
+        Method returns the total cost of all routes
+        ---------
+        Parameters:
+        routes - dict - Key - number of route, Value - list of depots in the route.
+        costs - dict - Key - arc, Value - cost of trip. Example {(0,1): 123, (1,0):123}
+        """
+        _full_cost = 0
+
+        for key in routes:
+            depots = routes.get(key)
+            for i in range(len(depots)):
+                if i+1 < len(depots):
+                    _full_cost += costs[depots[i], depots[i+1]]
+
+        return _full_cost
+
+    def plotting_solution(loc_x=[0], loc_y=[0], demand=[10], vehicle_capacity=20, active_arcs = {0:0}):
         """
         Method returns graph of solution in a coordinate network and save it as png file
         ---------
