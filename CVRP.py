@@ -84,66 +84,80 @@ class Cvrp():
         _routes = defaultdict(list)
         _demands = dict()
 
-        for i, j in savings:
-            if bool(q):
-                if i in q or j in q:
-                    _values = _routes[_count]
-                    _demand = 0
-                    if _routes[_count]:
-                        for val in _values:
-                            _demand += int(_copy_q.get(val, 0))
-                    else: 
-                        _routes[_count].append(0)
-
-                    if i not in _values and i in q and j not in _values and j in q:
-                        _added_demand = int(_copy_q.get(i)) + int(_copy_q.get(j))
-                        _demand += _added_demand
-                        if _demand <= Q:
-                            _routes[_count].append(i)
-                            _routes[_count].append(j)
-                        elif _added_demand < Q:
-                            _demands[_count] = _demand - int(_copy_q.get(i)) - int(_copy_q.get(j))
+        while bool(q):
+            for i, j in savings:
+                if bool(q):
+                    if i in q or j in q:
+                        _values = _routes[_count]
+                        _demand = 0
+                        if _routes[_count]:
+                            for val in _values:
+                                _demand += int(_copy_q.get(val, 0))
+                        else: 
                             _routes[_count].append(0)
-                            _routes[_count+1] = [0, i, j]
-                            _count += 1
-                            _demands[_count] = _demand - int(_copy_q.get(i)) - int(_copy_q.get(j))
-                        q.pop(i, None)
-                        q.pop(j, None)
 
-                    elif i in _values and j not in _values and j in q:
-                        _demand += int(_copy_q.get(j))
-                        if _demand <= Q:
-                            if _routes[_count].index(i) == 1:
-                                _routes[_count].insert(1, j)
-                            else:
-                                _routes[_count].append(j)
-                        else:
-                            _demands[_count] = _demand - int(_copy_q.get(j))
-                            _routes[_count].append(0)
-                            _routes[_count+1] = [0, j]
-                            _count += 1
-                            _demands[_count] = _demand - int(_copy_q.get(j))
-                        q.pop(j, None)
-
-                    elif i not in _values and i in q and j in _values:
-                        _demand += int(_copy_q.get(i))
-                        if _demand <= Q:
-                            if _routes[_count].index(j) == 1:
-                                _routes[_count].insert(1, i)
-                            else:
+                        if i not in _values and i in q and j not in _values and j in q:
+                            _added_demand = int(_copy_q.get(i)) + int(_copy_q.get(j))
+                            _demand += _added_demand
+                            if _demand <= Q:
                                 _routes[_count].append(i)
-                        else:
-                            _demands[_count] = _demand - int(_copy_q.get(i))
-                            _routes[_count].append(0)
-                            _routes[_count+1] = [0, i]
-                            _count += 1
-                            _demands[_count] = _demand - int(_copy_q.get(i))
-                        q.pop(i, None)
+                                _routes[_count].append(j)
+                                _demands[_count] = _demand
+                                q.pop(i, None)
+                                q.pop(j, None)
+                            elif _added_demand < Q:
+                                _demands[_count] = _demand - _added_demand
+                                _routes[_count].append(0)
+                                _count += 1
+                                _routes[_count] = [0, i, j]
+                                _demands[_count] = _added_demand
+                                q.pop(i, None)
+                                q.pop(j, None)
+                            elif _demand - int(_copy_q.get(j)) <= Q:
+                                _routes[_count].append(i)
+                                _demands[_count] = _demand - int(_copy_q.get(j))
+                                q.pop(i, None)
+                            elif _demand - int(_copy_q.get(i)) <= Q:
+                                _routes[_count].append(j)
+                                _demands[_count] = _demand - int(_copy_q.get(i))
+                                q.pop(j, None)
+
+                        elif i in _values and j not in _values and j in q:
+                            _demand += int(_copy_q.get(j))
+                            if _demand <= Q:
+                                _demands[_count] = _demand
+                                if _routes[_count].index(i) == 1:
+                                    _routes[_count].insert(1, j)
+                                else:
+                                    _routes[_count].append(j)
+                            else:
+                                _demands[_count] = _demand - int(_copy_q.get(j))
+                                _routes[_count].append(0)
+                                _count += 1
+                                _routes[_count] = [0, j]
+                                _demands[_count] = int(_copy_q.get(j))
+                            q.pop(j, None)
+
+                        elif i not in _values and i in q and j in _values:
+                            _demand += int(_copy_q.get(i))
+                            if _demand <= Q:
+                                _demands[_count] = _demand
+                                if _routes[_count].index(j) == 1:
+                                    _routes[_count].insert(1, i)
+                                else:
+                                    _routes[_count].append(i)
+                            else:
+                                _demands[_count] = _demand - int(_copy_q.get(i))
+                                _routes[_count].append(0)
+                                _count += 1
+                                _routes[_count] = [0, i]                            
+                                _demands[_count] = int(_copy_q.get(i))
+                            q.pop(i, None)
      
         _routes[_count].append(0)
 
         return _routes, _demands
-
+    
     def routes_full_cost(routes, costs):
         """
         Method returns the total cost of all routes
