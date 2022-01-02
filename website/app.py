@@ -1,32 +1,52 @@
 from flask import Flask, render_template, redirect, url_for, request, flash, jsonify
+from flask import send_file, send_from_directory, safe_join, abort
 import json
 import datetime
 
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=["GET", "POST"])
 def home():
     if request.method == 'POST':
         # Get the data from the form
-        data = request.form
-        calc_code = generate_random_string()
-        
-        # add placeholder in database
-        database = get_database()
-        database["results"][calc_code] = {
-            "name": calc_code,
-            "date": datetime.datetime.now().strftime("%Y-%m-%d"),
-            "num_of_points": data["num_of_points"],
-            "input_type": data["input_type"],
-            "image_url": "../website/data/images/placeholder.png",
-            "csv_url:": ""
-        }
+        jsonData = request.get_json()
+        print(jsonData)
 
-        save_database(database)
+        if jsonData['requestType'] == 'sendPoints':
+            calc_code = generate_random_string()
+            database = get_database()
+            if jsonData['type'] == 'manual':
+                database["results"][calc_code] = {
+                    "name": calc_code,
+                    "date": datetime.datetime.now().strftime("%Y-%m-%d"),
+                    "num_of_points": jsonData["pointsLen"],
+                    "input_type": 'Manual',
+                    "full_cost": "0.00",
+                    "image_url": "../data/images/placeholder.png",
+                    "csv_url:": ""
+                }
+                update_database(database)
+                calculate_scvrp(jsonData['manualObject'])
+            else:
+                database["results"][calc_code] = {
+                    "name": calc_code,
+                    "date": datetime.datetime.now().strftime("%Y-%m-%d"),
+                    "num_of_points": jsonData["pointsLen"],
+                    "input_type": 'CSV',
+                    "full_cost": "0.00",
+                    "image_url": "../data/images/placeholder.png",
+                    "csv_url:": ""
+                }
+                update_database(database)
+                calculate_scvrp(jsonData['csvObject'])
 
-        calculate_scvrp(data)
+            return {
+                'code' : calc_code
+            }
 
-        return redirect(url_for('results', calc_code=calc_code))
+        if(jsonData['requestType'] == 'goToSolution'):
+            return redirect(f'/result/{jsonData["code"]}')
 
     else:
         return render_template('index.html')
@@ -42,6 +62,14 @@ def display():
 @app.route('/result/<id>')
 def result(id):
     return render_template('result.html', content=get_database()['results'][id])
+
+@app.route('/data/images/<filename>')
+def send_file(filename):
+    return send_from_directory('./data/images/', filename)
+
+@app.route('/data/csv_files/<filename>')
+def get_csv_file(filename):
+    return send_from_directory('./data/csv_files/', filename)
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -37,7 +37,7 @@
     </h2>
     <div class="d-grid gap-2 col-4 mx-auto">
     <input type="text" id="calc_id" class="form-control" placeholder="Calculation ID">
-    <button class="btn btn-dark" >Get results</button>
+    <button class="btn btn-dark" id="goToRes">Get results</button>
     </div>
 
     <div class="d-grid gap-2 mt-3 col-10 mx-auto">
@@ -64,6 +64,15 @@
           </table>
         </div>
   </div>
-  
+  <script>
+    const goToRes = document.getElementById('goToRes');
+    const calc_id = document.getElementById('calc_id');
+    goToRes.addEventListener('click', function(){
+        if (calc_id.value ){
+            window.location.href = '/result/' + calc_id.value;
+        }
+        
+    });
+  </script>
 </body>
 </html>

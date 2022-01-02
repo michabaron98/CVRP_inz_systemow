@@ -124,19 +124,7 @@
 
     getCSVTempalte.addEventListener('click', function() {
       console.log("getCSV clicked");
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', 'template.csv', true);
-      xhr.responseType = 'blob';
-      xhr.onload = function(e) {
-        if (this.status == 200) {
-          var blob = this.response;
-          var link = document.createElement('a');
-          link.href = window.URL.createObjectURL(blob);
-          link.download = 'template.csv';
-          link.click();
-        }
-      };
-      xhr.send();
+      window.location.href = "/data/csv_files/template.csv";
     });
 
     csvFileSelector.addEventListener('change', (event) => {
@@ -155,16 +143,84 @@
         console.log("useCSV");
         if (isCSVUploaded) {
           console.log("isCSVUploaded");
-          solve();
+          fetch('/index', {
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            method: 'POST',
+            body: JSON.stringify({
+              'requestType': 'sendPoints',
+              'type': 'CSV',
+              'pointsLen': csvObject.pointsLen,
+              'csvObject': csvObject,
+            })})
+            .then(function(response) {
+              response.json().then(function(response) {
+                    alert("Solution calculated. Code to get results in Dispaly is: " + response.code);
+                    console.log(response);
+                    window.location.href = '/result/' + response.code;
+                    fetch('/index', {
+                      headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                      },
+                      method: 'POST',
+                      body: JSON.stringify({
+                        'requestType': 'goToSolution',
+                        'code': response.code,
+                      })
+                    })
+                })
+              })
         } else {
           alert("CSV file is not uploaded");
         }
-      } else {
+      } 
+      else {
         if(checkPoints()) {
           pointsToObject();
+          fetch('/index', {
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            method: 'POST',
+            body: JSON.stringify({
+              'requestType': 'sendPoints',
+              'type': 'manual',
+              'pointsLen': manualPointsNum,
+              'manualObject': manualPointsObject,
+            })
+          }).then(function (response){
+            if(response.ok) {
+                response.json()
+                .then(function(response) {
+                    alert("Solution calculated. Code to get results in Dispaly is: " + response.code);
+                    console.log(response);
+                    window.location.href = '/result/' + response.code;
+                    fetch('/index', {
+                      headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                      },
+                      method: 'POST',
+                      body: JSON.stringify({
+                        'type': 'goToSolution',
+                        'code': response.code,
+                      })
+                    })
+                });
+            }
+          }
+          );
+         
         }
       }
     });
+
+            
+   
 
     var obj_csv = {
       size:0,
@@ -238,6 +294,7 @@
       }
       csvObject.cap = capacity;
       csvObject.points = points_arr;
+      csvObject.pointsLen = data.length-2;
       isCSVUploaded = true;
       console.log("csvObject", csvObject);
     }
@@ -276,6 +333,7 @@
       }
       manualPointsObject.cap = carCap;
       manualPointsObject.points = points_arr;
+      manualPointsObject.pointsLen = manualPointsNum;
       console.log("manualPointsObject", manualPointsObject);
     }
     
