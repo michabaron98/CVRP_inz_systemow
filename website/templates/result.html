@@ -40,13 +40,18 @@
   <div class="container p-5">
 
   <div class="pt-5 d-grid gap-2 col-8 mx-auto">
-    <button type="button" class="btn btn-lg btn-secondary" id="getResultsButton" onclick="getResultsButtonClicked()">
+    <button type="button" class="btn btn-lg btn-secondary" id="getResultsButton">
         Download results as CSV
     </button>
     <p>Full cost: {{ content.full_cost }}</p>
     <img src="/data/images/{{content.name}}.png" class="rounded float-start" alt="Result Plot">
     </div>
 </div>
-
+<script>
+  const getResultsButton = document.getElementById("getResultsButton");
+  getResultsButton.addEventListener("click", function() {
+    window.location.href = "/data/csv_files/{{content.name}}.csv";
+  });
+</script>
   </body>  
 </html>
