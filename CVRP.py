@@ -72,7 +72,8 @@ class Cvrp():
         ---------
         Parameters:
         savings - dict - Key - depots (i, j), Value - savings.
-        loc_y - list - List of y coordinates of points
+        q - dict - Key - client, Value - demand
+        Q - vehicle capacity
         """
         _routes = {}
         _count = 1
