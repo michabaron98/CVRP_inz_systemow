@@ -149,7 +149,7 @@ class Cvrp():
 
         return _routes, _demands
 
-    def plotting_solution(loc_x=[0], loc_y=[0], demand=[10], vehicle_capacity=20, active_arcs = {0:0}):
+    def plotting_solution(loc_x=[0], loc_y=[0], demand=[10], vehicle_capacity=20, active_arcs = {0:0}, index = "deafulf_index"):
         """
         Method returns graph of solution in a coordinate network and save it as png file
         ---------
@@ -159,6 +159,7 @@ class Cvrp():
         demand - list - List of demand of every client
         vehicle_capacity - number of item which can take a vehilce.
         active_arcs - dict - Dictionary of active arcs
+        index - string - index name of solution
         """
         _n = len(loc_x) - 1
         _N = [i for i in range(1, _n+1)] #indeksy klinetow
@@ -169,9 +170,11 @@ class Cvrp():
             plt.plot([loc_x[i], loc_x[j]], [loc_y[i], loc_y[j]], c='g', alpha=0.3)
         plt.plot(loc_x[0], loc_y[0], c='r', marker='s')
         plt.axis('equal')
-        plt.savefig("Solution.png")
+        _path = "./data/images/" + index + ".png"
+        plt.savefig(_path)
 
-
+    def read_csv():
+        pass
     # def quantity_of_vehicles(demand, vehicle_capacity = 20):
     #     """ 
     #     Function returns minimal quantity of vehicles
