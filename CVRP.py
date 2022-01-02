@@ -72,9 +72,10 @@ class Cvrp():
         ---------
         Parameters:
         savings - dict - Key - depots (i, j), Value - savings.
-        q - dict - Key - client, Value - demand
-        Q - vehicle capacity
+        loc_y - list - List of y coordinates of points
         """
+        print(savings)
+
         _routes = {}
         _count = 1
         _copy_q = q.copy()
@@ -98,14 +99,20 @@ class Cvrp():
                         if _demand <= Q:
                             _routes[_count].append(i)
                             _routes[_count].append(j)
+                            q.pop(i, None)
+                            q.pop(j, None)
                         elif _added_demand < Q:
                             _demands[_count] = _demand - int(_copy_q.get(i)) - int(_copy_q.get(j))
                             _routes[_count].append(0)
-                            _routes[_count+1] = [0, i, j]
                             _count += 1
+                            _routes[_count] = [0, i, j]
                             _demands[_count] = _demand - int(_copy_q.get(i)) - int(_copy_q.get(j))
-                        q.pop(i, None)
-                        q.pop(j, None)
+                            q.pop(i, None)
+                            q.pop(j, None)
+                        else:
+                            _routes[_count].append(i)
+                            _demands[_count] = _demand + int(_copy_q.get(i))
+                            q.pop(i, None)
 
                     elif i in _values and j not in _values and j in q:
                         _demand += int(_copy_q.get(j))
@@ -117,8 +124,8 @@ class Cvrp():
                         else:
                             _demands[_count] = _demand - int(_copy_q.get(j))
                             _routes[_count].append(0)
-                            _routes[_count+1] = [0, j]
                             _count += 1
+                            _routes[_count] = [0, j]
                             _demands[_count] = _demand - int(_copy_q.get(j))
                         q.pop(j, None)
 
@@ -132,8 +139,8 @@ class Cvrp():
                         else:
                             _demands[_count] = _demand - int(_copy_q.get(i))
                             _routes[_count].append(0)
-                            _routes[_count+1] = [0, i]
                             _count += 1
+                            _routes[_count] = [0, i]                            
                             _demands[_count] = _demand - int(_copy_q.get(i))
                         q.pop(i, None)
      
