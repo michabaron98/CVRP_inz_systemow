@@ -5,6 +5,7 @@
             "date": "2017-01-01",
             "number_of_points": "12",
             "input_type": "Manual",
+            "full_cost": "0.00",
             "image_url": "https://s3.amazonaws.com/mosaic-images/MOS12KT.png",
             "csv_url:": "https://s3.amazonaws.com/mosaic-images/MOS12KT.csv"
         },
@@ -13,6 +14,7 @@
             "date": "2017-01-01",
             "number_of_points": "12",
             "input_type": "Manual",
+            "full_cost": "0.00",
             "image_url": "https://s3.amazonaws.com/mosaic-images/MOS12KT.png",
             "csv_url:": "https://s3.amazonaws.com/mosaic-images/MOS12KT.csv"
         },
@@ -21,6 +23,7 @@
             "date": "2017-01-01",
             "number_of_points": "12",
             "input_type": "Manual",
+            "full_cost": "0.00",
             "image_url": "https://s3.amazonaws.com/mosaic-images/MOS12KT.png",
             "csv_url:": "https://s3.amazonaws.com/mosaic-images/MOS12KT.csv"
         }
