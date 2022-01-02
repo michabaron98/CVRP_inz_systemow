@@ -100,12 +100,14 @@ class Cvrp():
                             _added_demand = int(_copy_q.get(i)) + int(_copy_q.get(j))
                             _demand += _added_demand
                             if _demand <= Q:
+                                print("pierwszy", i, j)
                                 _routes[_count].append(i)
                                 _routes[_count].append(j)
                                 _demands[_count] = _demand
                                 q.pop(i, None)
                                 q.pop(j, None)
                             elif _added_demand < Q:
+                                print("pierwszy_elif111", i, j)
                                 _demands[_count] = _demand - _added_demand
                                 _routes[_count].append(0)
                                 _count += 1
@@ -114,10 +116,12 @@ class Cvrp():
                                 q.pop(i, None)
                                 q.pop(j, None)
                             elif _demand - int(_copy_q.get(j)) <= Q:
+                                print("pierwszy_elif222", i, j)
                                 _routes[_count].append(i)
                                 _demands[_count] = _demand - int(_copy_q.get(j))
                                 q.pop(i, None)
                             elif _demand - int(_copy_q.get(i)) <= Q:
+                                print("pierwszy_elif333", i, j)
                                 _routes[_count].append(j)
                                 _demands[_count] = _demand - int(_copy_q.get(i))
                                 q.pop(j, None)
@@ -125,12 +129,14 @@ class Cvrp():
                         elif i in _values and j not in _values and j in q:
                             _demand += int(_copy_q.get(j))
                             if _demand <= Q:
+                                print("drugi", i, j)
                                 _demands[_count] = _demand
                                 if _routes[_count].index(i) == 1:
                                     _routes[_count].insert(1, j)
                                 else:
                                     _routes[_count].append(j)
                             else:
+                                print("drugi_else", i, j)
                                 _demands[_count] = _demand - int(_copy_q.get(j))
                                 _routes[_count].append(0)
                                 _count += 1
@@ -141,12 +147,14 @@ class Cvrp():
                         elif i not in _values and i in q and j in _values:
                             _demand += int(_copy_q.get(i))
                             if _demand <= Q:
+                                print("trzeci", i, j)
                                 _demands[_count] = _demand
                                 if _routes[_count].index(j) == 1:
                                     _routes[_count].insert(1, i)
                                 else:
                                     _routes[_count].append(i)
                             else:
+                                print("trzeci_else", i, j)
                                 _demands[_count] = _demand - int(_copy_q.get(i))
                                 _routes[_count].append(0)
                                 _count += 1
