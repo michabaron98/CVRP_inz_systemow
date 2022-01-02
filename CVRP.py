@@ -161,7 +161,7 @@ class Cvrp():
 
         return _full_cost
 
-    def plotting_solution(loc_x=[0], loc_y=[0], demand=[10], vehicle_capacity=20, active_arcs = {0:0}):
+    def plotting_solution(loc_x=[0], loc_y=[0], demand=[10], vehicle_capacity=20, active_arcs = {0:0}, index = "deafulf_index"):
         """
         Method returns graph of solution in a coordinate network and save it as png file
         ---------
