@@ -1,6 +1,9 @@
+from os import write
+from matplotlib.collections import _CollectionWithSizes
 import numpy as np
 import matplotlib.pyplot as plt
 from collections import defaultdict
+import csv 
 
 class Cvrp():
     
@@ -173,8 +176,39 @@ class Cvrp():
         _path = "./data/images/" + index + ".png"
         plt.savefig(_path)
 
-    def read_csv():
-        pass
+    def read_csv(path = "./data/csv_files/", index = "deafulf_index"):
+        """
+        Function returns lists of localization and demand and also vehicle capacity
+        ------------------
+        CSV file order:
+        First line - vehicle capacity
+        Rest lines - localization x, localization y, demand
+        """
+        with open('file.csv', newline='') as f:
+            reader = csv.reader(f)
+            data = list(reader)
+        vehicle_capacity = data[0][1]
+        loc_x = []
+        loc_y = []
+        demand = []
+        for item in data:
+            loc_x.append(item[1])
+            loc_y.append(item[3])
+            demand.append(item[5])
+
+        return loc_x, loc_y, demand, vehicle_capacity
+    
+    def save_csv(total_costs = 0, active_arcs = {0:0}, index = "deafulf_index", path = "./data/csv_files/"):
+        """
+        Function saves calcualtion as csv file
+        ------------------
+        """
+        _file_name = path + index + ".csv"
+        with open(_file_name, 'w') as f:
+            write = csv.writer(f)
+            write.writerow(index)
+            write.writerow(active_arcs)
+            write.writerow(total_costs)
     # def quantity_of_vehicles(demand, vehicle_capacity = 20):
     #     """ 
     #     Function returns minimal quantity of vehicles
