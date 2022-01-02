@@ -69,7 +69,6 @@ class Cvrp():
         print(f"saving matrix: {_savings_sorted}")
         return _savings_sorted
 
-
     def generate_routes(savings, q, Q):
         """
         Method returns dictionaries of routes and their demands
@@ -86,58 +85,52 @@ class Cvrp():
         _demands = dict()
 
         print(f"q start: {q}")
-        for i, j in savings:
-                if bool(q):
-                    if i in q or j in q:
-                        _values = _routes[_count]
-                        _demand = 0
-                        if _routes[_count]:
+        for i, j in savings: # przejscie po posortowanych oszczednosciach
+                if bool(q): # jesli istnieja nieobluzeni klienci
+                    if i in q or j in q: # chociaz 1 klient z pary nie został jeszcze dodany do trasy
+                        _values = _routes[_count] # wszystkie pkt z trasy
+                        _demand = 0 
+                        if _routes[_count]:  # jesli trasa nie jest pusta
                             for val in _values:
-                                _demand += int(_copy_q.get(val, 0))
+                                _demand += int(_copy_q.get(val, 0)) # biezace zapotrzebowanie trasy
                         else: 
-                            _routes[_count].append(0)
+                            _routes[_count].append(0) # tworzenie nowej trasy, dodajac magazyn
 
-                        if i not in _values and i in q and j not in _values and j in q:
+                        if i not in _values and i in q and j not in _values and j in q: # jesli para klientow nie znajduje sie juz na trasie i oboje nie zostali obsluzeni
                             _added_demand = int(_copy_q.get(i)) + int(_copy_q.get(j))
                             _demand += _added_demand
-                            if _demand <= Q:
-                                print("pierwszy", i, j)
-                                _routes[_count].append(i)
+                            if _demand <= Q: # jesli zapotrzebowanie mniejsze niz pojemnosc ciezarowki
+                                _routes[_count].append(i) # dodawanie obu klientow do sciezki
                                 _routes[_count].append(j)
-                                _demands[_count] = _demand
-                                q.pop(i, None)
+                                _demands[_count] = _demand # aktualizowanie zapotrzebowania sciezki
+                                q.pop(i, None) # usuwanie obu klientow z listy nieobsluzonych
                                 q.pop(j, None)
-                            elif _added_demand < Q:
-                                print("pierwszy_elif111", i, j)
+                            elif _added_demand <= Q: # jesli zapotrzebowanie obu nowych klientow nie przekracza pojemnosc pojazdu
                                 _demands[_count] = _demand - _added_demand
-                                _routes[_count].append(0)
+                                _routes[_count].append(0) # zamkniecie obecnej trasy
                                 _count += 1
-                                _routes[_count] = [0, i, j]
-                                _demands[_count] = _added_demand
-                                q.pop(i, None)
+                                _routes[_count] = [0, i, j] # dodanie obu klientow do nowej trasy
+                                _demands[_count] = _added_demand 
+                                q.pop(i, None) 
                                 q.pop(j, None)
-                            elif _demand - int(_copy_q.get(j)) <= Q:
-                                print("pierwszy_elif222", i, j)
-                                _routes[_count].append(i)
-                                _demands[_count] = _demand - int(_copy_q.get(j))
-                                q.pop(i, None)
-                            elif _demand - int(_copy_q.get(i)) <= Q:
-                                print("pierwszy_elif333", i, j)
-                                _routes[_count].append(j)
+                            elif _demand - int(_copy_q.get(j)) <= Q: # jesli zapotrzebowanie po dodaniu pierwszego klienta nie przekracza pojemnosci pojazdu
+                                _routes[_count].append(i) # dodanie pierwszego klienta
+                                _demands[_count] = _demand - int(_copy_q.get(j)) 
+                                q.pop(i, None) 
+                            elif _demand - int(_copy_q.get(i)) <= Q: # jesli zapotrzebowanie po dodaniu drugiego klienta nie przekracza pojemnosci pojazdu
+                                _routes[_count].append(j) # dodanie drugiego klienta
                                 _demands[_count] = _demand - int(_copy_q.get(i))
-                                q.pop(j, None)
+                                q.pop(j, None) 
 
-                        elif i in _values and j not in _values and j in q:
+                        elif i in _values and j not in _values and j in q: # jesli pierwszy klient znajduje sie na trasie, lecz drugi nie i nie zostal jeszcze obsluzony
                             _demand += int(_copy_q.get(j))
                             if _demand <= Q:
-                                print("drugi", i, j)
                                 _demands[_count] = _demand
-                                if _routes[_count].index(i) == 1:
+                                if _routes[_count].index(i) == 1: # jesli klient, z obecnej pary, juz jest na trasie, jako 1. cel to przed nim ustawiamy aktualnie dodawanego klienta, aby zachowac ciaglosc pomiedzy parami w oszczednosciach
                                     _routes[_count].insert(1, j)
                                 else:
                                     _routes[_count].append(j)
                             else:
-                                print("drugi_else", i, j)
                                 _demands[_count] = _demand - int(_copy_q.get(j))
                                 _routes[_count].append(0)
                                 _count += 1
@@ -145,17 +138,15 @@ class Cvrp():
                                 _demands[_count] = int(_copy_q.get(j))
                             q.pop(j, None)
 
-                        elif i not in _values and i in q and j in _values:
+                        elif i not in _values and i in q and j in _values: # jesli drugi klient znajduje sie na trasie, lecz pierwszy nie i nie zostal jeszcze obsluzony
                             _demand += int(_copy_q.get(i))
                             if _demand <= Q:
-                                print("trzeci", i, j)
                                 _demands[_count] = _demand
-                                if _routes[_count].index(j) == 1:
+                                if _routes[_count].index(j) == 1: 
                                     _routes[_count].insert(1, i)
                                 else:
                                     _routes[_count].append(i)
                             else:
-                                print("trzeci_else", i, j)
                                 _demands[_count] = _demand - int(_copy_q.get(i))
                                 _routes[_count].append(0)
                                 _count += 1
@@ -163,16 +154,15 @@ class Cvrp():
                                 _demands[_count] = int(_copy_q.get(i))
                             q.pop(i, None)
 
-        _routes[_count].append(0)
-        if bool(q):
-            print(f"q: {q}")
+        _routes[_count].append(0) # zamykanie ostatniej trasy
+        if bool(q): # bezpiecznik - jesli jakis klient mimo wszystko nie zostal obsluzony, tworzona jest dla niego trasa
             for key in q.keys():
                 if key != 0:
                     _routes[_count+1] = [0, key, 0]
                     _demands[_count+1] = int(_copy_q.get(0))
 
         return _routes, _demands
-
+    
     def routes_full_cost(routes, costs):
         """
         Method returns the total cost of all routes
