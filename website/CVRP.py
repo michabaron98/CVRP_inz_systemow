@@ -193,6 +193,9 @@ class Cvrp():
         active_arcs - dict - Dictionary of active arcs
         index - string - index name of solution
         """
+        _fig = plt.figure()
+        _fig.clear()
+        
         active = []
         key_length = len(active_arcs.keys())
         for key, list_ in active_arcs.items():

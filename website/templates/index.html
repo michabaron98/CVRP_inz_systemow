@@ -159,18 +159,25 @@
               response.json().then(function(response) {
                     alert("Solution calculated. Code to get results in Dispaly is: " + response.code);
                     console.log(response);
+                    
+                    manualPointsObject = Object();
+                    manualPointsNum = 0;
+                    isCSVUploaded = false;
+                    csvObject = Object();
+
                     window.location.href = '/result/' + response.code;
-                    fetch('/index', {
-                      headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                      },
-                      method: 'POST',
-                      body: JSON.stringify({
-                        'requestType': 'goToSolution',
-                        'code': response.code,
-                      })
-                    })
+
+                    // fetch('/index', {
+                    //   headers: {
+                    //     'Content-Type': 'application/json',
+                    //     'Accept': 'application/json',
+                    //   },
+                    //   method: 'POST',
+                    //   body: JSON.stringify({
+                    //     'requestType': 'goToSolution',
+                    //     'code': response.code,
+                    //   })
+                    // })
                 })
               })
         } else {
@@ -198,18 +205,24 @@
                 .then(function(response) {
                     alert("Solution calculated. Code to get results in Dispaly is: " + response.code);
                     console.log(response);
+
+                    manualPointsObject = Object();
+                    manualPointsNum = 0;
+                    isCSVUploaded = false;
+                    csvObject = Object();
+
                     window.location.href = '/result/' + response.code;
-                    fetch('/index', {
-                      headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                      },
-                      method: 'POST',
-                      body: JSON.stringify({
-                        'type': 'goToSolution',
-                        'code': response.code,
-                      })
-                    })
+                    // fetch('/index', {
+                    //   headers: {
+                    //     'Content-Type': 'application/json',
+                    //     'Accept': 'application/json',
+                    //   },
+                    //   method: 'POST',
+                    //   body: JSON.stringify({
+                    //     'type': 'goToSolution',
+                    //     'code': response.code,
+                    //   })
+                    // })
                 });
             }
           }
